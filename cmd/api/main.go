@@ -7,16 +7,23 @@ import (
 	"time"
 
 	"github.com/amareshthakur/olx-api/internal/config"
-	"github.com/amareshthakur/olx-api/internal/handler"
+	"github.com/amareshthakur/olx-api/internal/db"
+	"github.com/amareshthakur/olx-api/internal/handlers"
 	// _ "net/http/pprof"
 )
 
 func main() {
 	cfg := config.MustLoad()
+	// Connect database
+	db, err := db.Connect(cfg.PostgresDb)
+	if err != nil {
+		log.Fatalf("Main.db.connect: %v", err)
+	}
+	fmt.Println("Connected to dataBase :-> ", db)
 	fmt.Println("Olx server starting", cfg.Port)
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("GET /healthz", handler.Healthz)
+	mux.HandleFunc("GET /healthz", handlers.Health)
 
 	srv := http.Server{
 		// Addr:         ":9090",
