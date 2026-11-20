@@ -17,7 +17,7 @@ type listing struct {
 	CreatedAt   time.Time `json:"cretaion time"`
 }
 
-func List(db *sql.DB) http.HandlerFunc {
+func GetList(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// w.Write([]byte("all ok"))
 		rows, err := db.Query(
@@ -49,5 +49,25 @@ func List(db *sql.DB) http.HandlerFunc {
 		w.WriteHeader(http.StatusOK)
 		// json encoder
 		_ = json.NewEncoder(w).Encode(listings)
+	}
+}
+
+func DeleteList(db *sql.DB) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		id := r.PathValue("id")
+		// fmt.Println(id)
+		// execute query without returning any rows
+		// result, err := db.Exec(
+		_, err := db.Exec(
+			`DELETE FROM listings WHERE id = $1`, id)
+		if err != nil {
+			log.Printf("delete : %v", err)
+			http.Error(w, "internal error", http.StatusInternalServerError)
+			return
+		}
+		// rows, err := result.RowsAffected()
+		w.WriteHeader(http.StatusNoContent)
+
+		w.Write([]byte("ok"))
 	}
 }
