@@ -21,9 +21,10 @@ func main() {
 	}
 	fmt.Println("Connected to dataBase :-> ", db)
 	fmt.Println("Olx server starting", cfg.Port)
-
+	// Router handling
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /healthz", handlers.Health)
+	mux.HandleFunc("GET /listings", handlers.List(db))
 
 	srv := http.Server{
 		// Addr:         ":9090",

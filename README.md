@@ -17,3 +17,19 @@ watch context video
 
 %w -> for interface
 %v -> for struct
+
+DB Migration is task of OPS team so don't include runMigration in main,i.e from /api/ here
+
+Hello. Writing messages in lower cases like in. blog.printf Or panic. So writing a message in lower cases is one of the idiomatic approach writing golang. 
+
+mux.HandleFunc("GET /listings", handlers.List(db))
+closure factory -> for dependency injection
+
+CREATE TABLE listings (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
+    title TEXT NOT NULL,
+    description TEXT NOT NULL,
+    price BIGINT NOT NULL,
+    city TEXT NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW ()
+);
