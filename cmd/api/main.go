@@ -24,7 +24,9 @@ func main() {
 	// Router handling
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /healthz", handlers.Health)
-	mux.HandleFunc("GET /listings", handlers.List(db))
+	mux.HandleFunc("GET /listings", handlers.GetList(db))
+	// {id} -> is dynamic parameter
+	mux.HandleFunc("DELETE /list/{id}", handlers.DeleteList(db))
 
 	srv := http.Server{
 		// Addr:         ":9090",
