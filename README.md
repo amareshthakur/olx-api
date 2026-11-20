@@ -25,6 +25,8 @@ Hello. Writing messages in lower cases like in. blog.printf Or panic. So writing
 mux.HandleFunc("GET /listings", handlers.List(db))
 closure factory -> for dependency injection
 
+how to hndle hadler in better approach -> Constructor pattern 
+
 CREATE TABLE listings (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
     title TEXT NOT NULL,

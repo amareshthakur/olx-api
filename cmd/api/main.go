@@ -21,12 +21,16 @@ func main() {
 	}
 	fmt.Println("Connected to dataBase :-> ", db)
 	fmt.Println("Olx server starting", cfg.Port)
+	//listingHandlers -> lh
+	lh := handlers.NewListingHandler(db)
 	// Router handling
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /healthz", handlers.Health)
-	mux.HandleFunc("GET /listings", handlers.GetList(db))
+	// mux.HandleFunc("GET /listings", handlers.GetList(db))
+	mux.HandleFunc("GET /listings", lh.List)
 	// {id} -> is dynamic parameter
-	mux.HandleFunc("DELETE /list/{id}", handlers.DeleteList(db))
+	// mux.HandleFunc("DELETE /list/{id}", handlers.DeleteList(db))
+	mux.HandleFunc("DELETE /list/{id}", lh.Delete)
 
 	srv := http.Server{
 		// Addr:         ":9090",
