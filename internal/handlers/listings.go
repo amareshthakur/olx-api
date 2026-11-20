@@ -34,10 +34,13 @@ func NewListingHandler(db *sql.DB) *ListingHandler {
 // (lh ListingHandler) -> Method Receiver
 func (lh ListingHandler) List(w http.ResponseWriter, r *http.Request) {
 	// w.Write([]byte("all ok"))
-	rows, err := lh.db.Query(
-		`SELECT * FROM listings
-			ORDER BY created_at DESC
-			LIMIT 100`)
+	// r provide us -> request scoped context
+	ctx := r.Context()
+	rows, err := lh.db.QueryContext(ctx,
+		`SELECT id,title,description,price,city,created_at,pg_sleep(50)
+		 FROM listings
+		ORDER BY created_at DESC
+		LIMIT 100`)
 	if err != nil {
 		log.Printf("list all <-> List Handler Query : %v", err)
 		http.Error(w, "internal error", http.StatusInternalServerError)
@@ -69,11 +72,12 @@ func (lh ListingHandler) List(w http.ResponseWriter, r *http.Request) {
 
 // func DeleteList(db *sql.DB) http.HandlerFunc {
 func (lh ListingHandler) Delete(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
 	id := r.PathValue("id")
 	// fmt.Println(id)
 	// execute query without returning any rows
 	// result, err := db.Exec(
-	_, err := lh.db.Exec(
+	_, err := lh.db.ExecContext(ctx,
 		`DELETE FROM listings WHERE id = $1`, id)
 	if err != nil {
 		log.Printf("delete : %v", err)

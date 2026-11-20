@@ -27,6 +27,22 @@ closure factory -> for dependency injection
 
 how to hndle hadler in better approach -> Constructor pattern 
 
+we must use Context in production
+in production
+db.QueryCOntext()
+db.ExecContext()
+just for tutorial, it ok to have
+db.Query()
+db.Exec()
+
+postgres offer pg_sleep(<number>) functionality to delay the duration of query
+
+ZOMBIE query -> Query for which? For example, a user request. Something to database And database is taking time to deliver that request. And at that mean time User or client cancel the request means Said that I don't want this service, I am going to another one So user cancel it But still. Although request is canceled but. At database the DB query is still executing. This is this is a zombie query
+
+zombie attack -> db,third party api
+
+![alt text](image-1.png)
+
 CREATE TABLE listings (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
     title TEXT NOT NULL,
